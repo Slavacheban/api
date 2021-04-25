@@ -1,33 +1,28 @@
 package com.api.service;
 
 import com.api.dao.CharacterDAO;
-import com.api.entity.CharacterEntity;
-import com.api.service.CharacterService;
+import com.api.entity.Character;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CharacterServiceImpl implements CharacterService {
 
-    private CharacterDAO characterDAO;
+    private final CharacterDAO characterDAO;
 
     @Override
-    public CharacterEntity getRandomCharacter() {
+    public Character getRandomCharacter() {
         long count = characterDAO.count();
         int random = (int) Math.round(Math.random() * count);
-        Page<CharacterEntity> characterEntityPage = characterDAO.findAll(PageRequest.of(random, 1));
-        CharacterEntity result = null;
+        Page<Character> characterEntityPage = characterDAO.findAll(PageRequest.of(random, 1));
+        Character result = null;
         if (characterEntityPage.hasContent()) {
             result = characterEntityPage.getContent().get(0);
         }
@@ -35,7 +30,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<CharacterEntity> getCharactersLikeNames(String likeName) {
+    public List<Character> getCharactersLikeNames(String likeName) {
         return characterDAO.getCharacterEntitiesByNameContains(likeName);
     }
 
@@ -46,13 +41,13 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     @Transactional
-    public void synchronizeCharacters(List<CharacterEntity> allCharacters) {
+    public void synchronizeCharacters(List<Character> allCharacters) {
         deleteAllCharacters();
         saveAll(allCharacters);
     }
 
     @Override
-    public List<CharacterEntity> saveAll(List<CharacterEntity> characterEntityList) {
-        return characterDAO.saveAll(characterEntityList);
+    public List<Character> saveAll(List<Character> characterList) {
+        return characterDAO.saveAll(characterList);
     }
 }

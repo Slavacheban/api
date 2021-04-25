@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class OriginEntity {
+public class Origin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

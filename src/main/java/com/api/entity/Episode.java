@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "episode")
-public class EpisodeEntity {
+public class Episode {
 
     @Id
     @GeneratedValue(strategy =GenerationType.SEQUENCE)
@@ -23,9 +23,21 @@ public class EpisodeEntity {
     private String episode;
 
     @ManyToMany(mappedBy = "episodes", fetch = FetchType.LAZY)
-    private List<CharacterEntity> characters = new ArrayList<>();
+    private List<Character> characters = new ArrayList<>();
 
     private String url;
 
     private String created;
+
+    @Override
+    public String toString() {
+        return "Episode{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", airDate='" + airDate + '\'' +
+                ", episode='" + episode + '\'' +
+                ", url='" + url + '\'' +
+                ", created='" + created + '\'' +
+                '}';
+    }
 }
